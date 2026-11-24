@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Спортивные секции МКОУ Бажинская ООШ</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: Arial, sans-serif;
+  color: #222;
+  background: #fafafa;
+  line-height: 1.5;
+}
+
+.container { max-width: 1000px; margin: 0 auto; padding: 0 15px; }
+
+header { background: #2e7d32; color: #fff; padding: 15px 0; position: sticky; top: 0; z-index: 10; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+h1 { font-size: 20px; }
+
+nav ul { display: flex; gap: 18px; list-style: none; }
+nav a { color: #ffe082; text-decoration: none; font-weight: bold; }
+nav a:hover { color: #fff; }
+
+.burger {
+  display: none;
+  background: none;
+  border: 2px solid #ffe082;
+  color: #ffe082;
+  font-size: 20px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.hero {
+  background: #cddc39;
+  padding: 30px 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  text-align: center;
+}
+.btn {
+  display: inline-block;
+  background: #2e7d32;
+  color: #fff;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.btn:disabled { opacity: 0.6; cursor: default; }
+
+section { margin: 30px 0; scroll-margin-top: 70px; }
+h2 { color: #2e7d32; margin-bottom: 15px; border-bottom: 2px solid #cddc39; padding-bottom: 5px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+.filter {
+  border: 1px solid #2e7d32;
+  background: #fff;
+  color: #2e7d32;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.filter.active { background: #2e7d32; color: #fff; }
+
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  transition: transform 0.2s;
+}
+.card:hover { transform: translateY(-3px); }
+.card h3 { color: #2e7d32; margin-bottom: 8px; font-size: 18px; }
+.card .tag {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.not-found { padding: 20px; background: #fff3cd; border-radius: 8px; }
+.not-found button { background: none; border: none; color: #2e7d32; text-decoration: underline; cursor: pointer; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; }
+th { background: #e8f5e9; color: #2e7d32; }
+
+form { max-width: 420px; display: flex; flex-direction: column; gap: 12px; }
+form label { display: flex; flex-direction: column; gap: 4px; font-weight: bold; font-size: 14px; }
+form input, form select { padding: 9px 10px; border: 1px solid #bbb; border-radius: 6px; font-size: 15px; }
+.message { font-weight: bold; }
+.message.error { color: #c62828; }
+.message.ok { color: #2e7d32; }
+
+footer { background: #2e7d32; color: #fff; text-align: center; padding: 15px; margin-top: 30px; }
+
+@media (max-width: 760px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  .burger { display: block; }
+  nav ul { display: none; flex-direction: column; width: 100%; padding: 10px 0; }
+  nav ul.open { display: flex; }
+}
+
+@media (max-width: 480px) {
+  .cards { grid-template-columns: 1fr; }
+  h1 { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <h1>Спортивные секции МКОУ Бажинская ООШ</h1>
+    <nav>
+      <button class="burger" id="burger" aria-label="Меню">☰</button>
+      <ul id="nav-menu">
+        <li><a href="#sections">Секции</a></li>
+        <li><a href="#schedule">Расписание</a></li>
+        <li><a href="#trainers">Тренеры</a></li>
+        <li><a href="#signup">Записаться</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <h2>Запишись в спортивную секцию!</h2>
+    <p>В школе работают 6 секций, 2 тренера,14 занятий в неделю.</p>
+    <a href="#signup" class="btn">Записаться</a>
+  </section>
+
+  <section id="sections">
+    <h2>Каталог секций</h2>
+    <div class="filters" id="filters">
+      <button class="filter active" data-type="all" data-age="all">Все</button>
+      <button class="filter" data-type="team" data-age="all">Командные виды</button>
+      <button class="filter" data-type="individual" data-age="all">Индивидуальные</button>
+      <button class="filter" data-type="all" data-age="junior">1–4 класс</button>
+      <button class="filter" data-type="all" data-age="middle">5–9 класс</button>
+    </div>
+    <div class="cards" id="sections-list">
+
+      <div class="card">
+        <h3>Баскетбол</h3>
+        <span class="tag">5–9 класс</span>
+        <p>Тренер: Хасанов М.В.<br>Зал: Спортивный зал</p>
+      </div>
+      <div class="card">
+        <h3>Волейбол</h3>
+        <span class="tag">5–9 класс</span>
+        <p>Тренер: Кузнецова К.С.<br>Зал: Спортивный зал</p>
+      </div>
+      <div class="card">
+        <h3>Футбол</h3>
+        <span class="tag">1–4 класс</span>
+        <p>Тренер: Кузнецова К.С.<br>Зал: Спортплощадка</p>
+      </div>
+      <div class="card">
+        <h3>Лёгкая атлетика</h3>
+        <span class="tag">5–9 класс</span>
+        <p>Тренер: Кузнецова К.С.<br>Зал: Стадион</p>
+      </div>
+      <div class="card">
+        <h3>Лыжи</h3>
+        <span class="tag">5–9 класс</span>
+        <p>Тренер: Хасанов М.В.<br>Зал: Лыжная трасса</p>
+      </div>
+      <div class="card">
+        <h3>ОФП</h3>
+        <span class="tag">1–4 класс</span>
+        <p>Тренер: Хасанов М.В.<br>Зал: Актовый зал</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="schedule">
+    <h2>Расписание занятий</h2>
+    <table>
+      <thead>
+        <tr><th>Секция</th><th>День</th><th>Время</th><th>Зал</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Баскетбол</td><td>Понедельник, среда</td><td>15:00–16:30</td><td>Спортивный зал</td></tr>
+        <tr><td>Волейбол</td><td>Вторник, четверг</td><td>16:00–17:30</td><td>Спортивный зал</td></tr>
+        <tr><td>Футбол</td><td>Вторник, четверг</td><td>14:30–16:00</td><td>Спортплощадка</td></tr>
+        <tr><td>Лёгкая атлетика</td><td>Понедельник, пятница</td><td>15:30–17:00</td><td>Стадион</td></tr>
+        <tr><td>Лыжи</td><td>Среда, суббота</td><td>13:00–15:00</td><td>Лыжная трасса</td></tr>
+        <tr><td>ОФП</td><td>Суббота</td><td>10:00–11:00</td><td>Актовый зал</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="trainers">
+    <h2>Тренеры секций</h2>
+    <div class="cards">
+      <div class="card"><h3>Хасанов М.В.</h3><p>Баскетбол, 8 лет опыта</p></div>
+      <div class="card"><h3>Кузнецова К.С.</h3><p>Волейбол, 6 лет опыта</p></div>
+      <div class="card"><h3>Кузнецова К.С.</h3><p>Футбол, 10 лет опыта</p></div>
+      <div class="card"><h3>Кузнецова К.С.</h3><p>Лёгкая атлетика, 5 лет опыта</p></div>
+      <div class="card"><h3>Хасанов М.В.</h3><p>Лыжи, 12 лет опыта</p></div>
+      <div class="card"><h3>Хасанов М.В.</h3><p>ОФП, 7 лет опыта</p></div>
+    </div>
+  </section>
+
+  <section id="signup">
+    <h2>Записаться в секцию</h2>
+    <form id="signup-form" novalidate>
+      <label>Фамилия и имя
+        <input type="text" id="f-name" placeholder="Иванов Иван">
+      </label>
+      <label>Класс обучения
+        <input type="number" id="f-class" min="1" max="9" placeholder="5">
+      </label>
+      <label>Секция
+        <select id="f-section">
+          <option value="Баскетбол">Баскетбол</option>
+          <option value="Волейбол">Волейбол</option>
+          <option value="Футбол">Футбол</option>
+          <option value="Лёгкая атлетика">Лёгкая атлетика</option>
+          <option value="Лыжи">Лыжи</option>
+          <option value="ОФП">ОФП (1–4 класс)</option>
+        </select>
+      </label>
+      <label>Контактный телефон
+        <input type="tel" id="f-phone" placeholder="+7 (900) 000-00-00">
+      </label>
+      <button type="submit" class="btn" id="submit-btn">Отправить заявку</button>
+      <p id="form-message" class="message"></p>
+    </form>
+  </section>
+
+  <section id="contacts">
+    <h2>Контакты</h2>
+    <p>Адрес: Новосибирская область, Маслянинский муниципальный округ,
+       с. Бажинск, ул. Советская, дом 5</p>
+    <p>Телефон: <a href="tel:+73834742218">8 (383-474) 22-18</a></p>
+  </section>
+
+</main>
+
+<footer><p>© 2026 МКОУ Бажинская ООШ</p></footer>
+
+<script>
+// Фильтрация каталога секций
+function renderSections(filterType, filterAge) {
+  var data = [
+    { name: 'Баскетбол',       type: 'team',       age: 'middle', trainer: 'Хасанов М.В.',   hall: 'Спортивный зал' },
+    { name: 'Волейбол',        type: 'team',       age: 'middle', trainer: 'Кузнецова К.С.', hall: 'Спортивный зал' },
+    { name: 'Футбол',          type: 'team',       age: 'junior', trainer: 'Кузнецова К.С.', hall: 'Спортплощадка' },
+    { name: 'Лёгкая атлетика', type: 'individual', age: 'middle', trainer: 'Кузнецова К.С.', hall: 'Стадион' },
+    { name: 'Лыжи',            type: 'individual', age: 'middle', trainer: 'Хасанов М.В.',   hall: 'Лыжная трасса' },
+    { name: 'ОФП',             type: 'individual', age: 'junior', trainer: 'Хасанов М.В.',   hall: 'Актовый зал' }
+  ];
+  var list = document.getElementById('sections-list');
+  var filtered = data.filter(function (s) {
+    return (filterType === 'all' || s.type === filterType) &&
+           (filterAge === 'all' || s.age === filterAge);
+  });
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="not-found">Секции не найдены. ' +
+      '<button id="reset-filters">Сбросить фильтр</button></div>';
+    document.getElementById('reset-filters').onclick = function () {
+      var allBtn = document.querySelector('.filter[data-type="all"][data-age="all"]');
+      applyFilter(allBtn);
+    };
+    return;
+  }
+  list.innerHTML = filtered.map(function (s) {
+    return '<div class="card"><h3>' + s.name + '</h3>' +
+      '<span class="tag">' + (s.age === 'junior' ? '1–4 класс' : '5–9 класс') + '</span>' +
+      '<p>Тренер: ' + s.trainer + '<br>Зал: ' + s.hall + '</p></div>';
+  }).join('');
+}
+
+// Применение фильтра
+function applyFilter(btn) {
+  var buttons = document.querySelectorAll('.filter');
+  for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
+  btn.classList.add('active');
+  renderSections(btn.dataset.type, btn.dataset.age);
+}
+
+// Валидация формы
+function validateForm(name, cls, phone) {
+  if (name.trim().length < 3 || name.trim().indexOf(' ') === -1) {
+    return 'Укажите фамилию и имя полностью.';
+  }
+  if (!(cls >= 1 && cls <= 9)) {
+    return 'Класс обучения — число от 1 до 9.';
+  }
+  if (!/^(\+7|8)[\s\-]?$?\d{3}$?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(phone.trim())) {
+    return 'Телефон укажите в формате +7 (900) 000-00-00.';
+  }
+  return null;
+}
+
+// Сохранение заявки в localStorage
+function saveRequest(data) {
+  var requests = JSON.parse(localStorage.getItem('requests') || '[]');
+  data.date = new Date().toLocaleString('ru-RU');
+  requests.push(data);
+  localStorage.setItem('requests', JSON.stringify(requests));
+}
+
+// Отправка заявки на почту
+function sendToEmail(data) {
+  var email = 'bezdenezhnih.a@yandex.ru';
+  var subject = encodeURIComponent('Заявка на запись в секцию');
+  var body = encodeURIComponent(
+    'Фамилия и имя: ' + data.name + '\n' +
+    'Класс обучения: ' + data.class + '\n' +
+    'Секция: ' + data.section + '\n' +
+    'Контактный телефон: ' + data.phone + '\n' +
+    'Дата заявки: ' + data.date
+  );
+  window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + body;
+}
+
+// Мобильное меню
+function toggleMenu() {
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', function () {
+
+  document.getElementById('filters').addEventListener('click', function (e) {
+    if (e.target.classList.contains('filter')) applyFilter(e.target);
+  });
+
+  document.getElementById('burger').addEventListener('click', toggleMenu);
+
+  var menu = document.getElementById('nav-menu');
+  menu.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') menu.classList.remove('open');
+  });
+
+  document.getElementById('signup-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('f-name').value;
+    var cls = parseInt(document.getElementById('f-class').value, 10);
+    var phone = document.getElementById('f-phone').value;
+    var section = document.getElementById('f-section').value;
+    var msg = document.getElementById('form-message');
+    var btn = document.getElementById('submit-btn');
+
+    var error = validateForm(name, cls, phone);
+    if (error) {
+      msg.textContent = error;
+      msg.className = 'message error';
+      return;
+    }
+    btn.disabled = true;
+    var requestData = { name: name, class: cls, phone: phone, section: section };
+    saveRequest(requestData);
+    sendToEmail(requestData);
+    msg.textContent = 'Заявка отправлена! Мы свяжемся с вами.';
+    msg.className = 'message ok';
+    e.target.reset();
+    btn.disabled = false;
+  });
+});
+</script>
+</body>
+</html>
